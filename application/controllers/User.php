@@ -93,6 +93,7 @@ class user extends REST_Controller {
         } else {
                 $this->response([
                     'status' => FALSE,
+                    
                     'message' => 'No users were found'
                 ], REST_Controller::HTTP_NOT_FOUND);
         }
