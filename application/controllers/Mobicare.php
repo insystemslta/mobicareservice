@@ -1,5 +1,5 @@
 <?php
-
+defined('BASEPATH') OR exit('No direct script access allowed');
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -10,12 +10,12 @@
  *
  * @author Voloide
  */
-class Tracking extends CI_Controller{
+class Mobicare extends CI_Controller{
     //put your code here
     
     public function index()
 	{
-		$this->load->view('welcome_message');
+		$this->load->view('welcome');
 	}
 }
 
