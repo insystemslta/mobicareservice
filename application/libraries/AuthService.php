@@ -23,7 +23,7 @@ class AuthService{
     
     public function authenticate($username, $password){
         if ($username && $password){
-            $Login = $this->ci->user->login(array('loginnumber' => $username,'password' => md5($password)));
+            $Login = $this->ci->user->login(array('user_name' => $username,'password' => md5($password)));
             if ($Login){
                 return TRUE;
             } else {

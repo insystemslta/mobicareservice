@@ -19,7 +19,9 @@ class user extends REST_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->model('usermodel', 'user');
-        $this->load->model('contactmodel', 'contact');
+        $this->load->model('contactomodel', 'contacto');
+        $this->load->model('pessoamodel', 'pessoa');
+        $this->load->model('enderecomodel', 'endereco');
     }
     
     public function getById_get($id)
@@ -64,17 +66,89 @@ class user extends REST_Controller {
         }
     }
  
-    public function user_put()
+    public function create_put()
     {
+         $userData = [
+             'user_name'    => $this->put('user_name'),
+             'password'     => md5($this->put('password')),
+             'estado'       => $this->put('estado'),
+         ];
+         $pessoa = json_decode(json_encode($this->put('pessoa')));
          
+         
+         //$pessoa = json_decode(json_decode(json_encode($this->put('pessoa'))));
+         
+         $pessoaData = [
+             'nome'     => $pessoa -> nome,
+             'apelido'  => $pessoa ->apelido,
+         ];
+         
+         
+         $contacto = $pessoa->contacto;
+         $endereco = $pessoa->endereco;
+         $bairro = $endereco->bairro;
+         $posto = $endereco->postoAdministrativo;
+         
+         
+         $enderecoData = [
+             'latitude'     =>$endereco->latitude,
+             'longitude'    =>$endereco->longitude,
+             'bairro_id'    => ($bairro != NULL) ? $bairro->id : NULL,
+             'posto_id'     => ($posto != NULL) ? $posto->id : NULL,
+             'ruaAvenida'   =>$endereco->ruaAvenida,
+             'zona'         =>$endereco->zona,
+             'ncasa'        =>$endereco->ncasa,
+         ];
+         
+         $contactoData = [
+             'email'            =>$contacto->email,
+             'mainMobileNumber' =>$contacto->mainMobileNumber,
+             'auxMobileNumber'  =>$contacto->auxMobileNumber
+         ];
+          
+          
+        //$this->set_response($userData, REST_Controller::HTTP_CREATED);
+         
+         $this->db->trans_start();
+         $endereco_id = $this->endereco->insert($enderecoData);
+         $contacto_id = $this->contacto->insert($contactoData);
+         
+         $pessoaData["endereco_id"] = $endereco_id;
+         $pessoaData["contacto_id"] = $contacto_id;
+         
+         $pessoa_id = $this->pessoa->insert($pessoaData);
+         
+         $userData["pessoa_id"]=$pessoa_id;
+         
+         $user_id = $this->user->insert($userData);
+         $this->db->trans_complete();
+         
+         $user = $this->user->get($user_id);
+        if ($user){
+            $pessoa = $this->pessoa->get($pessoa_id);
+            $pessoa->contacto = $this->contacto->get($contacto_id);
+            $pessoa->endereco = $this->endereco->get($endereco_id);
+            
+            $user->pessoa = $pessoa;
+            $this->set_response($user, REST_Controller::HTTP_CREATED); // CREATED (201) being the HTTP response code
+        } else {
+            // Set the response and exit
+                $this->response([
+                    'status' => FALSE,
+                    'message' => 'An error ocurred'
+                ], REST_Controller::HTTP_BAD_REQUEST); // NOT_FOUND (400) being the HTTP response code
+        }
+        
     }
+    
+  
  
-    public function user_post()
+    public function update_post()
     {
         // update an existing user and respond with a status/errors
     }
  
-    public function user_delete()
+    public function delete_delete()
     {
         // delete a user and respond with a status/errors
     }

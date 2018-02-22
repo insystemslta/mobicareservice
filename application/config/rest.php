@@ -178,7 +178,7 @@ $config['auth_library_function'] = 'authenticate';
 | Acceptable values are; 'none', 'digest' and 'basic'.
 |
 */
-// $config['auth_override_class_method']['deals']['view'] = 'none';
+ $config['auth_override_class_method']['user']['create'] = 'none';
 // $config['auth_override_class_method']['deals']['insert'] = 'digest';
 // $config['auth_override_class_method']['accounts']['user'] = 'basic';
 // $config['auth_override_class_method']['dashboard']['*'] = 'basic';
