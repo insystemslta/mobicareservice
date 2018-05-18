@@ -25,6 +25,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 //$config['base_url'] = 'http://mobicare.insystems.co.mz/v1.0';
 $config['base_url'] = 'http://localhost/mobicare/';
+//$config['base_url'] = 'http://192.168.2.53/';
 
 /*
 |--------------------------------------------------------------------------

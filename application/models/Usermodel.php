@@ -34,6 +34,36 @@ class Usermodel extends CI_Model{
         return $delete;
     }
     
+    public function  getByCredentials($user_name, $password){
+         $sql = "SELECT *
+                FROM  mbc_user
+                WHERE 
+                user_name= '$user_name' AND password='$password'";
+
+        $query = $this->db->query($sql);
+         if ($query->num_rows() > 0) {
+            $row = $query->row();
+            return $row;
+        }  else {
+            return FALSE;
+        }
+    }
+    
+    public function  checkUserName($user_name){
+         $sql = "SELECT *
+                FROM  mbc_user
+                WHERE 
+                user_name= '$user_name'";
+
+        $query = $this->db->query($sql);
+         if ($query->num_rows() > 0) {
+            $row = $query->row();
+            return $row;
+        }  else {
+            return FALSE;
+        }
+    }
+    
     public function  get($user_id){
          $sql = "SELECT *
                 FROM  mbc_user

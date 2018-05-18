@@ -179,6 +179,14 @@ $config['auth_library_function'] = 'authenticate';
 |
 */
  $config['auth_override_class_method']['user']['create'] = 'none';
+ $config['auth_override_class_method']['user']['isUserNameAvailable'] = 'none';
+ $config['auth_override_class_method']['provincia']['getAll'] = 'none';
+ $config['auth_override_class_method']['distrito']['getAll'] = 'none';
+ $config['auth_override_class_method']['municipio']['getAll'] = 'none';
+ $config['auth_override_class_method']['postoadministrativo']['getAll'] = 'none';
+ $config['auth_override_class_method']['bairro']['getAll'] = 'none';
+ 
+ 
 // $config['auth_override_class_method']['deals']['insert'] = 'digest';
 // $config['auth_override_class_method']['accounts']['user'] = 'basic';
 // $config['auth_override_class_method']['dashboard']['*'] = 'basic';
